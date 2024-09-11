@@ -1,0 +1,28 @@
+{
+  "env": {
+    "browser": true,
+    "es2023": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2023,
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "singleQuote": true,
+        "semi": true
+      }
+    ]
+  }
+}

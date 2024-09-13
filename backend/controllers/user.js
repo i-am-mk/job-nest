@@ -14,6 +14,7 @@ export const register = async (req, res) => {
       password
     } = req.body;
 
+    console.log('req.body', req.body);
     if (!firstName || !lastName || !email || !phoneNumber || !role || !password)
       return res.status(400).json({
         message: 'All fields are required.',
@@ -91,7 +92,7 @@ export const login = async (req, res) => {
         sameSite: 'strict'
       })
       .json({
-        message: `Welcome ${user.firstName}, ${user.lastName}`,
+        message: `Welcome ${user.lastName}, ${user.firstName}`,
         user: {
           id: user._id,
           firstName: user.firstName,

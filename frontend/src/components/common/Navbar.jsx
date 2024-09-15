@@ -19,9 +19,9 @@ const Navbar = () => {
 
         <div className="flex items-center gap-8">
           <ul className="flex font-medium text-white gap-6">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Job Listings</a></li>
-            <li><a href="#">Explore</a></li>
+            <li><Link to="/">Dashboard</Link></li>
+            <li><Link to='/joblistings'>Job Listings</Link></li>
+            <li><Link>Explore</Link></li>
           </ul>
 
           {user ? (
@@ -42,7 +42,7 @@ const Navbar = () => {
                 <div className="flex flex-col gap-2">
                   <Button variant="link" className="flex items-center gap-2 text-gray-900 hover:text-gray-700">
                     <User2 className="w-4 h-4" />
-                    View Profile
+                    <Link to='/profile'>View Profile</Link>
                   </Button>
                   <Button variant="link" className="flex items-center gap-2 text-red-600 hover:text-red-400">
                     <LogOut className="w-4 h-4" />

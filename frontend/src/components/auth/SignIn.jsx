@@ -77,7 +77,7 @@ const SignIn = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">SignIn</h2>
+        <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="email" className="block text-sm font-medium">Email</Label>
@@ -128,7 +128,7 @@ const SignIn = () => {
             className="w-full py-2 px-4 bg-yellow-400 text-gray-900 font-semibold rounded-md hover:bg-yellow-300 flex items-center justify-center"
             disabled={loading}
           >
-            {loading ? <Loader2 className="animate-spin mr-2" /> : 'SignIn'}
+            {loading ? <Loader2 className="animate-spin mr-2" /> : 'Sign In'}
           </Button>
         </form>
         <p className="mt-4 text-sm text-gray-300 text-center">

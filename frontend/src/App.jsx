@@ -4,6 +4,7 @@ import SignIn from './components/auth/SignIn';
 import Register from './components/auth/Register';
 import JobListings from './components/auth/JobListings';
 import Explore from './components/auth/Explore';
+import Profile from './components/Profile';
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -14,6 +15,10 @@ function App() {
   {
     path: '/signin',
     element: <SignIn />,
+  },
+  {
+    path: '/profile',
+    element: <Profile />
   },
   {
     path: '/register',

@@ -1,20 +1,26 @@
 import { User } from '../models/user-model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import getDataUri from '../utils/datauri.js';
+import cloudinary from '../utils/cloudinary.js';
 
 export const register = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      role,
-      profilePicture,
-      password
-    } = req.body;
+    const { firstName, lastName, email, phoneNumber, role, password } =
+      req.body;
 
-    console.log('req.body', req.body);
+    const profilePhotoFile = req.files?.profilePhoto
+      ? req.files.profilePhoto[0]
+      : null;
+
+    let profilePhotoUrl = '';
+
+    if (profilePhotoFile) {
+      const fileUri = getDataUri(profilePhotoFile);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      profilePhotoUrl = cloudResponse.secure_url;
+    }
+
     if (!firstName || !lastName || !email || !phoneNumber || !role || !password)
       return res.status(400).json({
         message: 'All fields are required.',
@@ -34,7 +40,9 @@ export const register = async (req, res) => {
       email,
       phoneNumber,
       role,
-      profilePicture,
+      profile: {
+        profilePhoto: profilePhotoUrl
+      },
       password: hashedPassword
     });
 
@@ -47,6 +55,76 @@ export const register = async (req, res) => {
       message: 'Internal server error.',
       success: false
     });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { firstName, lastName, email, phoneNumber, profile } = req.body;
+
+    const profilePhotoFile = req.files?.profilePhoto
+      ? req.files.profilePhoto[0]
+      : null;
+    const resumeFile = req.files?.resume ? req.files.resume[0] : null;
+
+    let profilePhotoUrl = '';
+    let resumeUrl = '';
+
+    if (profilePhotoFile) {
+      const fileUri = getDataUri(profilePhotoFile);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      profilePhotoUrl = cloudResponse.secure_url;
+    }
+
+    if (resumeFile) {
+      const fileUri = getDataUri(resumeFile);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      resumeUrl = cloudResponse.secure_url;
+    }
+
+    const userId = req.id; // middleware authentication
+    let user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found.',
+        success: false
+      });
+    }
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (profile) user.profile = profile;
+
+    if (profilePhotoUrl) {
+      user.profile.profilePhoto = profilePhotoUrl;
+    }
+
+    if (resumeUrl) {
+      user.profile.resume = resumeUrl;
+      user.profile.resumeOriginalName = resumeFile?.originalname;
+    }
+
+    await user.save();
+
+    user = {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+      profile: user.profile
+    };
+
+    return res.status(200).json({
+      message: 'Profile updated successfully.',
+      user,
+      success: true
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -100,7 +178,7 @@ export const login = async (req, res) => {
           email: user.email,
           phoneNumber: user.phoneNumber,
           role: user.role,
-          profilePicture: user.profilePicture
+          profile: user.profile
         },
         success: true
       });
@@ -115,9 +193,9 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    return res.status(200).json('token', '', { maxAge: 0 }).json({
+    return res.status(200).cookie('token', '', { maxAge: 0 }).json({
       message: 'Logout successfully.',
-      success: false
+      success: true
     });
   } catch (error) {
     console.log(error);

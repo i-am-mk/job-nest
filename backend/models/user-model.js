@@ -25,9 +25,16 @@ const userSchema = new mongoose.Schema(
       enum: { values: ['STUDENT', 'RECRUITER'] },
       required: true
     },
-    profilePicture: {
-      type: String,
-      default: ''
+    profile: {
+      bio: { type: String },
+      skills: [{ type: String }],
+      resume: { type: String }, // URL to resume file
+      resumeOriginalName: { type: String },
+      company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
+      profilePhoto: {
+        type: String,
+        default: ''
+      }
     },
     password: {
       type: String,

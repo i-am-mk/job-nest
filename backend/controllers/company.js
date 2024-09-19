@@ -1,4 +1,6 @@
 import { Company } from '../models/company-model.js';
+import cloudinary from '../utils/cloudinary.js';
+import getDataUri from '../utils/datauri.js';
 
 export const getCompanyById = async (req, res) => {
   try {
@@ -26,7 +28,7 @@ export const getCompanyById = async (req, res) => {
 
 export const getCompaniesByUserId = async (req, res) => {
   try {
-    const { id: userId } = req.body;
+    const { id: userId } = req.query;
     const companies = await Company.find({ userId });
     if (companies.length == 0)
       return res.status(404).json({
@@ -50,12 +52,21 @@ export const getCompaniesByUserId = async (req, res) => {
 
 export const createCompany = async (req, res) => {
   try {
-    const { name, description, website, location, logo, userId } = req.body;
+    const { name, description, website, location, userId } = req.body;
     if (!name || !userId)
       return res.status(400).json({
         message: 'Name and User ID are mandatory.',
         success: false
       });
+
+    const logoFile = req.files?.logo ? req.files.logo[0] : null;
+    let logoUrl = '';
+
+    if (logoFile) {
+      const fileUri = getDataUri(logoFile);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      logoUrl = cloudResponse.secure_url;
+    }
 
     const existingCompany = await Company.findOne({ name });
     if (existingCompany)
@@ -69,7 +80,7 @@ export const createCompany = async (req, res) => {
       description,
       website,
       location,
-      logo,
+      logo: logoUrl,
       userId
     });
 

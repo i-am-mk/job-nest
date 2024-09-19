@@ -1,6 +1,11 @@
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import {
+  Avatar,
+  AvatarImage,
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui";
 import { LogOut, User2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +18,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
-  console.log("user", user);
   const logoutHandler = async () => {
     try {
       const res = await axios.get(`${USER_API_ENDPOINT}/logout`, {
@@ -48,9 +52,6 @@ const Navbar = () => {
             <li>
               <Link to="/joblistings">Job Listings</Link>
             </li>
-            <li>
-              <Link>Explore</Link>
-            </li>
           </ul>
 
           {user ? (
@@ -81,13 +82,15 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <Button
-                    variant="link"
-                    className="flex items-center gap-2 text-gray-900 hover:text-gray-700"
-                  >
-                    <User2 className="w-4 h-4" />
-                    <Link to="/profile">View Profile</Link>
-                  </Button>
+                  {user.role === "STUDENT" && (
+                    <Button
+                      variant="link"
+                      className="flex items-center gap-2 text-gray-900 hover:text-gray-700"
+                    >
+                      <User2 className="w-4 h-4" />
+                      <Link to="/profile">View Profile</Link>
+                    </Button>
+                  )}
                   <Button
                     variant="link"
                     className="flex items-center gap-2 text-red-600 hover:text-red-400"

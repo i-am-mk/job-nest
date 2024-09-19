@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import SignIn from "./components/auth/SignIn";
+import SignIn from "./components/auth/SignIn/SignIn";
 import Register from "./components/auth/Register";
 import JobListings from "./components/auth/JobListings";
-import Explore from "./components/auth/Explore";
 import Profile from "./components/Profile";
 import JobDetails from "./components/JobDetails";
+import Companies from "./components/admin/Companies";
+import CreateCompany from "./components/admin/create/CreateCompany";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -34,8 +35,12 @@ function App() {
       element: <JobDetails />,
     },
     {
-      path: "/explore",
-      element: <Explore />,
+      path: "/admin/companies",
+      element: <Companies />,
+    },
+    {
+      path: "/admin/createcompany",
+      element: <CreateCompany />,
     },
   ]);
 

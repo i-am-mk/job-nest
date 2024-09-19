@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Label } from "../ui/Label";
-import { Input } from "../ui/Input";
+import { Button, Input, Label, RadioGroup, RadioGroupItem } from "../ui";
 import { toast } from "sonner";
 import axios from "axios";
 import { USER_API_ENDPOINT } from "../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../ui/button";
 import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 

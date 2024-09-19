@@ -60,7 +60,7 @@ export const register = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { firstName, lastName, email, phoneNumber, profile } = req.body;
+    const { firstName, lastName, email, phoneNumber, skills, bio } = req.body;
 
     const profilePhotoFile = req.files?.profilePhoto
       ? req.files.profilePhoto[0]
@@ -95,7 +95,8 @@ export const updateProfile = async (req, res) => {
     if (lastName) user.lastName = lastName;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
-    if (profile) user.profile = profile;
+    if (skills) user.profile.skills = skills;
+    if (bio) user.profile.bio = bio;
 
     if (profilePhotoUrl) {
       user.profile.profilePhoto = profilePhotoUrl;
@@ -158,7 +159,7 @@ export const login = async (req, res) => {
     const tokenData = {
       userId: user._id
     };
-    const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
+    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: '1d'
     });
 

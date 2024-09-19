@@ -1,44 +1,14 @@
-import { useState, useEffect } from "react";
-import { Avatar, AvatarImage } from "../components/ui/avatar";
-import { Badge } from "../components/ui/badge";
+import { useState } from "react";
+import { Avatar, AvatarImage, Badge, Button } from "../components/ui";
 import { Mail, Phone, Link as LinkIcon, Pen } from "lucide-react";
 import Navbar from "./common/Navbar";
-import { Button } from "./ui/button";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import { useSelector } from "react-redux";
-
-const sampleJobHistory = [
-  {
-    id: 1,
-    date: "2024-08-01",
-    role: "Frontend Developer",
-    company: "Tech Solutions",
-    status: "Applied",
-  },
-  {
-    id: 2,
-    date: "2024-08-15",
-    role: "UX Designer",
-    company: "Creative Minds",
-    status: "Interviewed",
-  },
-  {
-    id: 3,
-    date: "2024-09-01",
-    role: "Backend Developer",
-    company: "Dev Hub",
-    status: "Offer Extended",
-  },
-];
+import AppliedJob from "./user/appliedjob/AppliedJob";
 
 const Profile = () => {
   const { user } = useSelector((store) => store.auth);
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
-  const [jobHistory, setJobHistory] = useState([]);
-
-  useEffect(() => {
-    setJobHistory(sampleJobHistory);
-  }, [user]);
 
   if (!user) return <p className="text-gray-600">Loading...</p>;
 
@@ -120,48 +90,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-
-          <div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-4 ">
-              Applied Jobs
-            </h3>
-            <table className="w-full bg-white ">
-              <thead>
-                <tr>
-                  <th className="py-3 px-4 text-left border-b">Date</th>
-                  <th className="py-3 px-4 text-left border-b">Job Role</th>
-                  <th className="py-3 px-4 text-left border-b">Company</th>
-                  <th className="py-3 px-4 text-left border-b">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jobHistory.length === 0 ? (
-                  <tr>
-                    <td colSpan="4" className="text-center py-4 text-gray-600">
-                      No applied jobs
-                    </td>
-                  </tr>
-                ) : (
-                  jobHistory.map((job) => (
-                    <tr key={job.id} className="hover:bg-gray-100">
-                      <td className="py-3 px-4 text-left border-b text-gray-600">
-                        {job.date}
-                      </td>
-                      <td className="py-3 px-4 text-left border-b text-gray-800">
-                        {job.role}
-                      </td>
-                      <td className="py-3 px-4 text-left border-b text-gray-800">
-                        {job.company}
-                      </td>
-                      <td className="py-3 px-4 text-left border-b text-gray-800">
-                        {job.status}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <AppliedJob />
         </div>
         <UpdateProfileDialog
           openProfileDialog={openProfileDialog}

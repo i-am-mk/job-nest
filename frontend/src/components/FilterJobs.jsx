@@ -1,15 +1,19 @@
-import { useState } from 'react';
-import { Button } from '../components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popover';
+import { useState } from "react";
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../components/ui";
 
 const FilterJobs = () => {
   const [filters, setFilters] = useState({
-    jobType: '',
-    location: '',
-    industry: '',
-    experience: '',
-    salary: '',
-    searchQuery: '',
+    jobType: "",
+    location: "",
+    industry: "",
+    experience: "",
+    salary: "",
+    searchQuery: "",
   });
 
   const handleFilterChange = (event) => {
@@ -19,12 +23,6 @@ const FilterJobs = () => {
 
   const handleSearchChange = (event) => {
     setFilters({ ...filters, searchQuery: event.target.value });
-  };
-
-  const applyFilters = () => {
-    if (onFilterChange) {
-      onFilterChange(filters);
-    }
   };
 
   return (
@@ -107,19 +105,34 @@ const FilterJobs = () => {
 
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="bg-yellow-400 text-gray-900 hover:bg-yellow-300">
+            <Button
+              variant="outline"
+              className="bg-yellow-400 text-gray-900 hover:bg-yellow-300"
+            >
               Apply Filters
             </Button>
           </PopoverTrigger>
           <PopoverContent className="p-4 bg-white text-gray-900 shadow-lg rounded-lg">
             <p className="text-lg font-semibold mb-2">Filters Applied:</p>
             <div className="flex flex-col gap-2">
-              <p><strong>Job Type:</strong> {filters.jobType || 'Any'}</p>
-              <p><strong>Location:</strong> {filters.location || 'Any'}</p>
-              <p><strong>Industry:</strong> {filters.industry || 'Any'}</p>
-              <p><strong>Experience Level:</strong> {filters.experience || 'Any'}</p>
-              <p><strong>Salary Range:</strong> {filters.salary || 'Any'}</p>
-              <p><strong>Search Query:</strong> {filters.searchQuery || 'None'}</p>
+              <p>
+                <strong>Job Type:</strong> {filters.jobType || "Any"}
+              </p>
+              <p>
+                <strong>Location:</strong> {filters.location || "Any"}
+              </p>
+              <p>
+                <strong>Industry:</strong> {filters.industry || "Any"}
+              </p>
+              <p>
+                <strong>Experience Level:</strong> {filters.experience || "Any"}
+              </p>
+              <p>
+                <strong>Salary Range:</strong> {filters.salary || "Any"}
+              </p>
+              <p>
+                <strong>Search Query:</strong> {filters.searchQuery || "None"}
+              </p>
             </div>
           </PopoverContent>
         </Popover>

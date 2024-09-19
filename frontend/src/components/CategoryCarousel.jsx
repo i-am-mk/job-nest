@@ -1,11 +1,11 @@
 import {
+  Button,
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./ui/carousel";
-import { Button } from "./ui/button";
+} from "./ui";
 
 const roles = [
   "Frontend Developer",

@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Badge } from "./ui/badge";
+import {
+  Button,
+  Input,
+  Badge,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "./ui";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import axios from "axios";
@@ -21,9 +26,9 @@ const UpdateProfileDialog = ({ openProfileDialog, setOpenProfileDialog }) => {
     lastName: user?.lastName || "",
     email: user?.email || "",
     phoneNumber: user?.phoneNumber || "",
-    profilePhoto: user?.profile.profilePhoto || "",
-    bio: user?.profile.bio || "",
-    skills: user?.profile.skills || [],
+    profilePhoto: user?.profile?.profilePhoto || "",
+    bio: user?.profile?.bio || "",
+    skills: user?.profile?.skills || [],
     resume: user?.profile?.resume || "",
   });
 
@@ -96,7 +101,7 @@ const UpdateProfileDialog = ({ openProfileDialog, setOpenProfileDialog }) => {
   };
 
   const addSkill = () => {
-    const trimmedSkill = skillInput.trim().toLowerCase();
+    const trimmedSkill = skillInput.trim().toUpperCase();
     if (trimmedSkill && !formData.skills.includes(trimmedSkill)) {
       setFormData((prevData) => ({
         ...prevData,
@@ -125,10 +130,11 @@ const UpdateProfileDialog = ({ openProfileDialog, setOpenProfileDialog }) => {
       formDataToSend.append("phoneNumber", formData.phoneNumber);
       formDataToSend.append("resume", formData.resume);
       formDataToSend.append("profilePhoto", formData.profilePhoto);
-      formDataToSend.append("bio", formData.bio);
-      formData.skills.forEach((skill) =>
-        formDataToSend.append("skills[]", skill)
-      );
+      formData.skills.forEach((skill, index) => {
+        formDataToSend.append(`skills[${index}]`, skill);
+      });
+
+      formDataToSend.append("bio", formData.bio || "");
 
       const res = await axios.post(
         `${USER_API_ENDPOINT}/profile/update`,
@@ -298,7 +304,6 @@ const UpdateProfileDialog = ({ openProfileDialog, setOpenProfileDialog }) => {
             )}
           </div>
 
-          {/* Skills Input */}
           <div className="col-span-2">
             <label className="block text-sm font-medium mb-1" htmlFor="skills">
               Skills

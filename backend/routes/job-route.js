@@ -9,9 +9,9 @@ import {
 
 const jobRoute = express.Router();
 
-jobRoute.route('/jobs/:id').get(isAuthenticated, getJobById);
+jobRoute.route('/job/:id').get(isAuthenticated, getJobById);
 jobRoute.route('/admins/:adminId/jobs').get(isAuthenticated, getJobsByAdminId);
 jobRoute.route('/jobs').get(isAuthenticated, searchJobs);
-jobRoute.route('/jobs').post(isAuthenticated, createJob);
+jobRoute.route('/createJob').post(isAuthenticated, createJob);
 
 export default jobRoute;

@@ -9,10 +9,10 @@ import {
 
 const applicationRoute = express.Router();
 
-applicationRoute.route('/apply').post(isAuthenticated, applyJob);
 applicationRoute
   .route('/my-applications')
   .get(isAuthenticated, getUserAppliedJobs);
+applicationRoute.route('/apply').post(isAuthenticated, applyJob);
 applicationRoute
   .route('/job/:id/applicants')
   .get(isAuthenticated, getJobApplicants);

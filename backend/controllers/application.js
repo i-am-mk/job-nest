@@ -1,20 +1,17 @@
 import { Application } from '../models/application-model.js';
 import { Job } from '../models/job-model.js';
 
-// Apply for a job
 export const applyJob = async (req, res) => {
   try {
-    const { userId, jobId, resume, status, applicationDate } = req.body;
+    const { userId, jobId, resume } = req.body;
 
-    // Validate all required fields
-    if (!userId || !jobId || !resume || !status || !applicationDate) {
+    if (!userId || !jobId || !resume) {
       return res.status(400).json({
         message: 'All fields are required.',
         success: false
       });
     }
 
-    // Check if the job exists
     const targetJob = await Job.findById(jobId);
     if (!targetJob) {
       return res.status(404).json({
@@ -23,7 +20,6 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    // Check if the user has already applied for the job
     const existingUserApplication = await Application.findOne({
       jobId,
       userId
@@ -35,16 +31,12 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    // Create a new application
     const userApplication = await Application.create({
       userId,
       jobId,
-      resume,
-      status,
-      applicationDate
+      resume
     });
 
-    // Associate the new application with the job
     targetJob.applications.push(userApplication._id);
     await targetJob.save();
 
@@ -61,12 +53,10 @@ export const applyJob = async (req, res) => {
   }
 };
 
-// Get all jobs applied by a user
 export const getUserAppliedJobs = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.query;
 
-    // Validate user ID
     if (!userId) {
       return res.status(400).json({
         message: 'User ID is required.',
@@ -74,11 +64,10 @@ export const getUserAppliedJobs = async (req, res) => {
       });
     }
 
-    // Retrieve applications for the user
     const userApplications = await Application.find({ userId })
       .sort({ createdAt: -1 })
       .populate({
-        path: 'job',
+        path: 'jobId',
         options: { sort: { createdAt: -1 } },
         populate: {
           path: 'company',
@@ -86,7 +75,6 @@ export const getUserAppliedJobs = async (req, res) => {
         }
       });
 
-    // Check if applications exist
     if (!userApplications || userApplications.length === 0) {
       return res.status(404).json({
         message: 'No applications found.',
@@ -106,7 +94,6 @@ export const getUserAppliedJobs = async (req, res) => {
   }
 };
 
-// Admin retrieves all applicants for a specific job
 export const getJobApplicants = async (req, res) => {
   try {
     const { jobId } = req.body;
@@ -137,13 +124,10 @@ export const getJobApplicants = async (req, res) => {
     });
   }
 };
-
-// Update the status of a job application
 export const updateApplicationStatus = async (req, res) => {
   try {
     const { applicationId, status } = req.body;
 
-    // Validate required fields
     if (!applicationId || !status) {
       return res.status(400).json({
         message: 'All fields are required.',
@@ -151,7 +135,6 @@ export const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    // Find the application by ID
     const targetApplication = await Application.findById(applicationId);
     if (!targetApplication) {
       return res.status(404).json({
@@ -160,7 +143,6 @@ export const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    // Update application status and save
     targetApplication.status = status;
     await targetApplication.save();
 

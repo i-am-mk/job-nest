@@ -3,17 +3,19 @@ import { Job } from '../models/job-model.js';
 // Get job by ID
 export const getJobById = async (req, res) => {
   try {
-    const { jobId } = req.body;
-    if (!jobId) {
+    const { id } = req.params;
+    if (!id) {
       return res.status(400).json({
         message: 'Job ID is required.',
         success: false
       });
     }
 
-    const job = await Job.findById(jobId).populate({
-      path: 'applications'
-    });
+    const job = await Job.findById(id)
+      .populate({
+        path: 'applications'
+      })
+      .populate({ path: 'company' });
     if (!job) {
       return res.status(404).json({
         message: 'Job not found.',
@@ -118,11 +120,11 @@ export const createJob = async (req, res) => {
       applicationDeadline,
       requirements,
       status,
-      skills,
-      createdBy
+      skills
     } = req.body;
 
-    // Validate required fields
+    const userId = req.id;
+
     if (
       !title ||
       !description ||
@@ -135,8 +137,7 @@ export const createJob = async (req, res) => {
       !applicationDeadline ||
       !requirements ||
       !status ||
-      !skills ||
-      !createdBy
+      !skills
     ) {
       return res.status(400).json({
         message: 'All fields are required to create a job.',
@@ -157,7 +158,7 @@ export const createJob = async (req, res) => {
       requirements,
       status,
       skills,
-      createdBy
+      createdBy: userId
     });
 
     await newJob.save();

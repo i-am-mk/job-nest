@@ -1,5 +1,6 @@
 import express from 'express';
 import isAuthenticated from '../middleware/isAuthenticated.js';
+import { uploadFields } from '../middleware/multer.js';
 import {
   getCompanyById,
   getCompaniesByUserId,
@@ -9,9 +10,11 @@ import {
 
 const companyRoute = express.Router();
 
-companyRoute.route('/:id').get(isAuthenticated, getCompanyById);
 companyRoute.route('/companies').get(isAuthenticated, getCompaniesByUserId);
-companyRoute.route('/create').post(isAuthenticated, createCompany);
+companyRoute.route('/:id').get(isAuthenticated, getCompanyById);
+companyRoute
+  .route('/create')
+  .post(isAuthenticated, uploadFields, createCompany);
 companyRoute.route('/:id/update').put(isAuthenticated, updateCompany);
 
 export default companyRoute;

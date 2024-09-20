@@ -12,6 +12,7 @@ import { setCompanies } from "@/redux/companySlice";
 const useCreateCompanyHandlers = ({
   companyData,
   setCompanyData,
+  validationErrors,
   setValidationErrors,
 }) => {
   const navigate = useNavigate();
@@ -21,11 +22,14 @@ const useCreateCompanyHandlers = ({
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
+    setValidationErrors({ ...validationErrors, [name]: "" });
     setCompanyData((prevData) => ({
       ...prevData,
       [name]: files?.length ? files[0] : value,
     }));
   };
+
+  const handleCancel = async () => navigate("/admin/companies");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +61,7 @@ const useCreateCompanyHandlers = ({
     }
   };
 
-  return { handleInputChange, handleSubmit };
+  return { handleInputChange, handleCancel, handleSubmit };
 };
 
 export default useCreateCompanyHandlers;

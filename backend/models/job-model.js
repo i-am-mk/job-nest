@@ -45,7 +45,7 @@ const jobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['OPEN', 'CLOSED'],
-      default: 'Active'
+      default: 'OPEN'
     },
     skills: {
       type: [String]

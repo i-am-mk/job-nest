@@ -94,12 +94,11 @@ export const getUserAppliedJobs = async (req, res) => {
   }
 };
 
-export const getJobApplicants = async (req, res) => {
+export const getJobApplicantsByJobId = async (req, res) => {
   try {
-    const { jobId } = req.body;
+    const { id } = req.params;
 
-    // Retrieve job and populate applications with user details
-    const jobWithApplicants = await Job.findById(jobId).populate({
+    const jobWithApplicants = await Job.findById(id).populate({
       path: 'applications',
       options: { sort: { createdAt: -1 } },
       populate: {
@@ -107,7 +106,6 @@ export const getJobApplicants = async (req, res) => {
       }
     });
 
-    // Check if the job exists
     if (!jobWithApplicants) {
       return res.status(404).json({
         message: 'No job found.',
@@ -124,18 +122,19 @@ export const getJobApplicants = async (req, res) => {
     });
   }
 };
-export const updateApplicationStatus = async (req, res) => {
+export const updateApplicationStatusByApplicationId = async (req, res) => {
   try {
-    const { applicationId, status } = req.body;
+    const { status } = req.body;
+    const id = req.params.id;
 
-    if (!applicationId || !status) {
+    if (!id || !status) {
       return res.status(400).json({
         message: 'All fields are required.',
         success: false
       });
     }
 
-    const targetApplication = await Application.findById(applicationId);
+    const targetApplication = await Application.findById(id);
     if (!targetApplication) {
       return res.status(404).json({
         message: 'Application not found.',

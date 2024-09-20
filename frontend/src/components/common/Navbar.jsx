@@ -47,10 +47,16 @@ const Navbar = () => {
         <div className="flex items-center gap-8">
           <ul className="flex font-medium text-white gap-6">
             <li>
-              <Link to="/">Dashboard</Link>
+              <Link to={user?.role === "RECRUITER" ? "/admin/companies" : "/"}>
+                {user?.role === "RECRUITER" ? "Companies" : "Dashboard"}
+              </Link>
             </li>
             <li>
-              <Link to="/joblistings">Job Listings</Link>
+              <Link
+                to={user?.role === "RECRUITER" ? "/admin/jobs" : "/joblistings"}
+              >
+                {user?.role === "RECRUITER" ? "Jobs" : "Job Listings"}
+              </Link>
             </li>
           </ul>
 
@@ -78,11 +84,11 @@ const Navbar = () => {
                       alt="@shadcn"
                     />
                   </Avatar>
-                  <p className="text-lg font-semibold">{`Hi, ${user.firstName}!`}</p>
+                  <p className="text-lg font-semibold">{`Hi, ${user.lastName} ${user.firstName}`}</p>
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  {user.role === "STUDENT" && (
+                  {user?.role === "STUDENT" && (
                     <Button
                       variant="link"
                       className="flex items-center gap-2 text-gray-900 hover:text-gray-700"

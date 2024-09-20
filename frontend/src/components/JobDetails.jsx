@@ -16,6 +16,7 @@ const JobDetails = () => {
   const { id } = useParams();
 
   const [isApplied, setIsApplied] = useState(false);
+  const [totalApplicant, setTotalApplicant] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,6 +33,11 @@ const JobDetails = () => {
               (application) => application.userId === user?.id
             ) || false
           );
+          console.log(
+            "jobData.applications.length",
+            jobData.applications.length
+          );
+          setTotalApplicant(jobData.applications.length);
         }
       } catch (error) {
         console.error("Error fetching job:", error);
@@ -98,6 +104,9 @@ const JobDetails = () => {
               <Badge className="bg-green-500 text-white px-3 py-1 rounded-full font-bold">
                 {job?.status || "Status"}
               </Badge>
+              <span className="text-gray-600">
+                Total Applicants: {totalApplicant || 0}
+              </span>
             </div>
           </div>
           {user && (

@@ -5,8 +5,13 @@ import Register from "./components/auth/Register";
 import JobListings from "./components/auth/JobListings";
 import Profile from "./components/Profile";
 import JobDetails from "./components/JobDetails";
-import Companies from "./components/admin/Companies";
-import CreateCompany from "./components/admin/create/CreateCompany";
+import JobAdminDetails from "./components/admin/jobs/job/JobDetails";
+import Companies from "./components/admin/Companies/Companies";
+import CreateCompany from "./components/admin/Companies/create/CreateCompany";
+import Jobs from "./components/admin/jobs/Jobs";
+import CreateJob from "./components/admin/jobs/create/CreateJob";
+import CompanyDetails from "./components/admin/companies/company/CompanyDetails";
+import JobApplicantList from "./components/admin/jobs/job/JobApplicantList";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -41,6 +46,26 @@ function App() {
     {
       path: "/admin/createcompany",
       element: <CreateCompany />,
+    },
+    {
+      path: "/admin/createjob",
+      element: <CreateJob />,
+    },
+    {
+      path: "/admin/jobs",
+      element: <Jobs />,
+    },
+    {
+      path: "/admin/companies/:id",
+      element: <CompanyDetails />,
+    },
+    {
+      path: "/admin/jobs/:id",
+      element: <JobAdminDetails />,
+    },
+    {
+      path: "/admin/jobs/:id/applicants",
+      element: <JobApplicantList />,
     },
   ]);
 

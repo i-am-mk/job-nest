@@ -3,8 +3,8 @@ import isAuthenticated from '../middleware/isAuthenticated.js';
 import {
   applyJob,
   getUserAppliedJobs,
-  getJobApplicants,
-  updateApplicationStatus
+  getJobApplicantsByJobId,
+  updateApplicationStatusByApplicationId
 } from '../controllers/application.js';
 
 const applicationRoute = express.Router();
@@ -15,9 +15,9 @@ applicationRoute
 applicationRoute.route('/apply').post(isAuthenticated, applyJob);
 applicationRoute
   .route('/job/:id/applicants')
-  .get(isAuthenticated, getJobApplicants);
+  .get(isAuthenticated, getJobApplicantsByJobId);
 applicationRoute
   .route('/:id/updateStatus')
-  .put(isAuthenticated, updateApplicationStatus);
+  .post(isAuthenticated, updateApplicationStatusByApplicationId);
 
 export default applicationRoute;

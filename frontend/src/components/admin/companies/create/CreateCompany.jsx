@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import Navbar from "../../common/Navbar";
-import { Textarea, Button, Input, Label } from "../../ui";
+import Navbar from "../../../common/Navbar";
+import { Textarea, Button, Input, Label } from "../../../ui";
 import useCreateCompanyHandlers from "./hooks/useCreateCompanyHandler";
 
 const CreateCompany = () => {
@@ -14,18 +14,20 @@ const CreateCompany = () => {
   });
   const [validationErrors, setValidationErrors] = useState({});
 
-  const { handleInputChange, handleSubmit } = useCreateCompanyHandlers({
-    companyData,
-    setCompanyData,
-    setValidationErrors,
-  });
+  const { handleInputChange, handleCancel, handleSubmit } =
+    useCreateCompanyHandlers({
+      companyData,
+      setCompanyData,
+      validationErrors,
+      setValidationErrors,
+    });
 
   return (
     <div>
       <Navbar />
       <div className="max-w-4xl mx-auto my-20">
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="mb-6">
             <h1 className="font-bold text-2xl">Create Your Company</h1>
             <p>Fill in the details below to create your company.</p>
           </div>
@@ -37,9 +39,10 @@ const CreateCompany = () => {
             placeholder="Google, Microsoft, etc"
             value={companyData.name}
             onChange={handleInputChange}
-            error={validationErrors.name}
-            required
           />
+          {validationErrors.name && (
+            <p className="text-red-600 mt-1">{validationErrors.name}</p>
+          )}
 
           <FormField
             id="description"
@@ -48,8 +51,10 @@ const CreateCompany = () => {
             placeholder="A short description of your company"
             value={companyData.description}
             onChange={handleInputChange}
-            error={validationErrors.description}
           />
+          {validationErrors.description && (
+            <p className="text-red-600 mt-1">{validationErrors.description}</p>
+          )}
 
           <FormField
             id="website"
@@ -58,8 +63,10 @@ const CreateCompany = () => {
             placeholder="https://yourcompany.com"
             value={companyData.website}
             onChange={handleInputChange}
-            error={validationErrors.website}
           />
+          {validationErrors.website && (
+            <p className="text-red-600 mt-1">{validationErrors.website}</p>
+          )}
 
           <FormField
             id="location"
@@ -68,8 +75,10 @@ const CreateCompany = () => {
             placeholder="City, Country"
             value={companyData.location}
             onChange={handleInputChange}
-            error={validationErrors.location}
           />
+          {validationErrors.location && (
+            <p className="text-red-600 mt-1">{validationErrors.location}</p>
+          )}
 
           <div className="my-6">
             <Label htmlFor="companyLogo">Logo</Label>
@@ -82,15 +91,20 @@ const CreateCompany = () => {
               className="max-w-1xl"
             />
             {validationErrors.logo && (
-              <p className="text-red-600">{validationErrors.logo}</p>
+              <p className="text-red-600 mt-1">{validationErrors.logo}</p>
             )}
           </div>
 
-          <div className="flex gap-4">
-            <Button type="button" variant="secondary">
+          <div className="flex justify-end gap-4">
+            <Button type="button" variant="secondary" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="submit">Create Company</Button>
+            <Button
+              disabled={Object.values(validationErrors).some((e) => e != "")}
+              type="submit"
+            >
+              Create Company
+            </Button>
           </div>
         </form>
       </div>
@@ -108,7 +122,7 @@ const FormField = ({
   error,
   required,
 }) => (
-  <div className="my-6">
+  <div className="mt-5">
     <Label htmlFor={id}>{label}</Label>
     {type === "textarea" ? (
       <Textarea

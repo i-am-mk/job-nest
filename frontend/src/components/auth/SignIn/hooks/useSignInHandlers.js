@@ -38,7 +38,7 @@ const useSignInHandlers = ({ userData, setUserData, setFormErrors }) => {
 
       if (res.data?.success) {
         dispatch(setUser(res.data.user));
-        navigate("/");
+        navigate(res.data.user.role === "RECRUITER" ? "/admin/companies" : "/");
         toast.success(res.data.message);
       } else {
         throw new Error(res.data?.message || "Login failed.");

@@ -4,7 +4,7 @@ import getDataUri from '../utils/datauri.js';
 
 export const getCompanyById = async (req, res) => {
   try {
-    const { id: companyId } = req.body;
+    const { id: companyId } = req.params;
     const company = await Company.findById(companyId);
     if (!company)
       return res.status(404).json({

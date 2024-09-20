@@ -40,7 +40,7 @@ export const getJobById = async (req, res) => {
 // Get jobs created by a specific admin
 export const getJobsByAdminId = async (req, res) => {
   try {
-    const { adminId } = req.body;
+    const { adminId } = req.params;
     if (!adminId) {
       return res.status(400).json({
         message: 'Admin ID is required.',
@@ -105,8 +105,7 @@ export const searchJobs = async (req, res) => {
   }
 };
 
-// Create a new job
-export const createJob = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const {
       title,
@@ -116,12 +115,23 @@ export const createJob = async (req, res) => {
       companyId,
       jobType,
       experienceLevel,
-      postedDate,
       applicationDeadline,
       requirements,
-      status,
       skills
     } = req.body;
+
+    console.log(
+      title,
+      description,
+      salary,
+      location,
+      companyId,
+      jobType,
+      experienceLevel,
+      applicationDeadline,
+      requirements,
+      skills
+    );
 
     const userId = req.id;
 
@@ -133,10 +143,8 @@ export const createJob = async (req, res) => {
       !companyId ||
       !jobType ||
       !experienceLevel ||
-      !postedDate ||
       !applicationDeadline ||
       !requirements ||
-      !status ||
       !skills
     ) {
       return res.status(400).json({
@@ -153,10 +161,8 @@ export const createJob = async (req, res) => {
       company: companyId,
       jobType,
       experienceLevel,
-      postedDate,
       applicationDeadline,
       requirements,
-      status,
       skills,
       createdBy: userId
     });

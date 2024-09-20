@@ -4,7 +4,7 @@ import {
   searchJobs,
   getJobById,
   getJobsByAdminId,
-  createJob
+  create
 } from '../controllers/job.js';
 
 const jobRoute = express.Router();
@@ -12,6 +12,6 @@ const jobRoute = express.Router();
 jobRoute.route('/job/:id').get(isAuthenticated, getJobById);
 jobRoute.route('/admins/:adminId/jobs').get(isAuthenticated, getJobsByAdminId);
 jobRoute.route('/jobs').get(isAuthenticated, searchJobs);
-jobRoute.route('/createJob').post(isAuthenticated, createJob);
+jobRoute.route('/create').post(isAuthenticated, create);
 
 export default jobRoute;

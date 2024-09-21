@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import SignIn from "./components/auth/SignIn/SignIn";
-import Register from "./components/auth/Register";
+import Register from "./components/auth/Register/Register";
 import JobListings from "./components/auth/JobListings";
 import Profile from "./components/Profile";
 import JobDetails from "./components/JobDetails";
@@ -12,6 +12,7 @@ import Jobs from "./components/admin/jobs/Jobs";
 import CreateJob from "./components/admin/jobs/create/CreateJob";
 import CompanyDetails from "./components/admin/companies/company/CompanyDetails";
 import JobApplicantList from "./components/admin/jobs/job/JobApplicantList";
+import OtpVerification from "./components/auth/Register/OTPVerification";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -30,6 +31,10 @@ function App() {
     {
       path: "/register",
       element: <Register />,
+    },
+    {
+      path: "/otpverification",
+      element: <OtpVerification />,
     },
     {
       path: "/joblistings",

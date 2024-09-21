@@ -153,7 +153,7 @@ const UpdateProfileDialog = ({ openProfileDialog, setOpenProfileDialog }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message || error?.message);
     } finally {
       setLoading(false);
     }
@@ -297,11 +297,6 @@ const UpdateProfileDialog = ({ openProfileDialog, setOpenProfileDialog }) => {
               onChange={handleChange}
               className="cursor-pointer"
             />
-            {formData.profilePhoto && (
-              <p className="text-gray-300 text-sm mt-1">
-                Selected file: {formData.profilePhoto}
-              </p>
-            )}
           </div>
 
           <div className="col-span-2">

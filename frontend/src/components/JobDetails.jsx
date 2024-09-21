@@ -33,10 +33,6 @@ const JobDetails = () => {
               (application) => application.userId === user?.id
             ) || false
           );
-          console.log(
-            "jobData.applications.length",
-            jobData.applications.length
-          );
           setTotalApplicant(jobData.applications.length);
         }
       } catch (error) {

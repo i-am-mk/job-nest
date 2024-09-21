@@ -31,8 +31,9 @@ export const getCompaniesByUserId = async (req, res) => {
     const { id: userId } = req.query;
     const companies = await Company.find({ userId });
     if (companies.length == 0)
-      return res.status(404).json({
-        success: false,
+      return res.status(200).json({
+        success: true,
+        companies: [],
         message: 'No companies found for this user.'
       });
 

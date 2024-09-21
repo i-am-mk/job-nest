@@ -3,47 +3,81 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import getDataUri from '../utils/datauri.js';
 import cloudinary from '../utils/cloudinary.js';
+import { UserDraft } from '../models/user-draft-model.js';
 
-export const register = async (req, res) => {
+export const createUserDraft = async (req, res) => {
   try {
     const { firstName, lastName, email, phoneNumber, role, password } =
       req.body;
 
-    const profilePhotoFile = req.files?.profilePhoto
-      ? req.files.profilePhoto[0]
-      : null;
-
-    let profilePhotoUrl = '';
-
-    if (profilePhotoFile) {
-      const fileUri = getDataUri(profilePhotoFile);
-      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-      profilePhotoUrl = cloudResponse.secure_url;
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phoneNumber ||
+      !role ||
+      !password
+    ) {
+      return res
+        .status(400)
+        .json({ message: 'All fields are required.', success: false });
     }
 
-    if (!firstName || !lastName || !email || !phoneNumber || !role || !password)
-      return res.status(400).json({
-        message: 'All fields are required.',
-        success: false
-      });
-
-    const isUserExists = await User.findOne({ email });
-    if (isUserExists)
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res
         .status(400)
         .json({ message: 'User already exists.', success: false });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userDraft = await UserDraft.create({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      role,
+      password: hashedPassword,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+    });
+
+    return res.status(201).json({
+      message: 'User Draft Created.',
+      id: userDraft._id,
+      success: true
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: 'Internal server error.', success: false });
+  }
+};
+
+export const createUser = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    console.log('id', id);
+    const { firstName, lastName, email, phoneNumber, role, password } =
+      await UserDraft.findOne({ _id: id });
+    console.log('server', {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      role,
+      password
+    });
+    await UserDraft.deleteOne({ _id: id });
+
     await User.create({
       firstName,
       lastName,
       email,
       phoneNumber,
       role,
-      profile: {
-        profilePhoto: profilePhotoUrl
-      },
-      password: hashedPassword
+      password
     });
 
     return res
@@ -51,10 +85,9 @@ export const register = async (req, res) => {
       .json({ message: 'Account created successfully.', success: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      message: 'Internal server error.',
-      success: false
-    });
+    return res
+      .status(500)
+      .json({ message: 'Internal server error.', success: false });
   }
 };
 
@@ -82,7 +115,7 @@ export const updateProfile = async (req, res) => {
       resumeUrl = cloudResponse.secure_url;
     }
 
-    const userId = req.id; // middleware authentication
+    const userId = req.id;
     let user = await User.findById(userId);
 
     if (!user) {
@@ -194,15 +227,14 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    return res.status(200).cookie('token', '', { maxAge: 0 }).json({
-      message: 'Logout successfully.',
-      success: true
-    });
+    return res
+      .status(200)
+      .cookie('token', '', { maxAge: 0, httpOnly: true, secure: true })
+      .json({ message: 'Logout successfully.', success: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      message: 'Internal server error.',
-      success: false
-    });
+    return res
+      .status(500)
+      .json({ message: 'Internal server error.', success: false });
   }
 };

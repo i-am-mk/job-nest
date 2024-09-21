@@ -86,8 +86,8 @@ const useCreateJobHandlers = ({
         navigate("/admin/jobs");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
       console.error("Error creating job:", error);
+      toast.error(error.response?.data?.message || error?.message);
     }
   };
 

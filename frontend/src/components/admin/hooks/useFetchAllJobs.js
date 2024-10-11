@@ -2,29 +2,35 @@ import { JOB_API_ENDPOINT } from "@/utils";
 import { setJobs } from "@/redux/jobSlice";
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const useGetAllJobs = () => {
+const useFetchAllJobs = () => {
   const dispatch = useDispatch();
-
+  const { user } = useSelector((store) => store.auth);
   useEffect(() => {
+    console.log("user.id", user.id);
     const fetchJobs = async () => {
       try {
-        const response = await axios.get(`${JOB_API_ENDPOINT}/jobs`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${JOB_API_ENDPOINT}/admins/${user.id}/jobs`,
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+
         if (response.data.success) {
           dispatch(setJobs(response.data.jobs));
         } else {
           console.error("Failed to fetch jobs:", response.data.message);
         }
       } catch (error) {
-        console.error("Error fetching jobs:", error);
+        console.error(error);
       }
     };
 
     fetchJobs();
-  }, [dispatch]);
+  }, []);
 };
 
-export default useGetAllJobs;
+export default useFetchAllJobs;

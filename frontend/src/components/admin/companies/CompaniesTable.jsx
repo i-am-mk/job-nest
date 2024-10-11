@@ -11,13 +11,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../ui";
+} from "@/components/ui";
 import { useSelector } from "react-redux";
 import { Edit2, Eye, MoreHorizontal, Trash } from "lucide-react";
-import useFetchAllCompanies from "./hooks/useFetchAllCompanies";
-import useCompaniesTableHandlers from "./hooks/useCompaniesTableHandlers";
+import { useFetchAllCompanies, useCompaniesTableHandlers } from "../hooks";
 
-const CompanyTable = ({ searchCompanyFilter }) => {
+const CompaniesTable = ({ searchCompanyFilter }) => {
   useFetchAllCompanies();
   const { handler } = useCompaniesTableHandlers();
   const { companies } = useSelector((store) => store.company);
@@ -26,7 +25,6 @@ const CompanyTable = ({ searchCompanyFilter }) => {
       .toLowerCase()
       .includes(searchCompanyFilter.toLowerCase());
   });
-  console.log("filteredCompanies", filteredCompanies);
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg ">
@@ -106,8 +104,8 @@ const CompanyTable = ({ searchCompanyFilter }) => {
   );
 };
 
-CompanyTable.propTypes = {
+CompaniesTable.propTypes = {
   searchCompanyFilter: PropTypes.string.isRequired,
 };
 
-export default CompanyTable;
+export default CompaniesTable;

@@ -1,13 +1,12 @@
 import axios from "axios";
-import { Badge, Button } from "./ui";
+import { Badge, Button } from "@/components/ui";
 import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { APPLICATION_API_ENDPOINT, JOB_API_ENDPOINT } from "./utils/constant";
+import { APPLICATION_API_ENDPOINT, JOB_API_ENDPOINT } from "@/utils";
 import { setJob } from "@/redux/jobSlice";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import Navbar from "./common/Navbar";
 
 const JobDetails = () => {
   const dispatch = useDispatch();
@@ -89,7 +88,6 @@ const JobDetails = () => {
 
   return (
     <>
-      <Navbar />
       <div className="max-w-5xl mx-auto my-10">
         <div className="flex justify-between items-center mb-6">
           <div>

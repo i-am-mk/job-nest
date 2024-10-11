@@ -4,7 +4,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../components/ui";
+} from "@/components/ui";
 
 const FilterJobs = () => {
   const [filters, setFilters] = useState({
@@ -51,7 +51,6 @@ const FilterJobs = () => {
             <option value="">Location</option>
             <option value="remote">Remote</option>
             <option value="onsite">Onsite</option>
-            {/* Add more locations as needed */}
           </select>
 
           <select
@@ -65,7 +64,6 @@ const FilterJobs = () => {
             <option value="finance">Finance</option>
             <option value="healthcare">Healthcare</option>
             <option value="education">Education</option>
-            {/* Add more industries as needed */}
           </select>
 
           <select

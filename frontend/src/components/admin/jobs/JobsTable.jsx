@@ -12,13 +12,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../ui";
+} from "@/components/ui";
 import { useSelector } from "react-redux";
 import { Edit2, Eye, MoreHorizontal, Trash } from "lucide-react";
-import useFetchAllJobs from "./hooks/useFetchAllJobs";
-import useJobsTableHandlers from "./hooks/useJobsTableHandlers";
+import { useFetchAllJobs, useJobsTableHandlers } from "../hooks";
 
-const JobDetailsTable = ({ searchJobFilter }) => {
+const JobsTable = ({ searchJobFilter }) => {
   useFetchAllJobs();
   const { jobs } = useSelector((store) => store.job);
   const { handler } = useJobsTableHandlers();
@@ -134,8 +133,8 @@ const JobDetailsTable = ({ searchJobFilter }) => {
   );
 };
 
-JobDetailsTable.propTypes = {
+JobsTable.propTypes = {
   searchJobFilter: PropTypes.string.isRequired,
 };
 
-export default JobDetailsTable;
+export default JobsTable;

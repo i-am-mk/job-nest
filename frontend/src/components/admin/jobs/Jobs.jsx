@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../common/Navbar";
-import { Button, Input } from "../../ui";
-import JobsTable from "./JobsTable";
+import { Button, Input } from "@/components/ui";
+import { JobsTable } from "../jobs";
 import { useState } from "react";
 
 const Jobs = () => {
@@ -11,7 +10,6 @@ const Jobs = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="max-w-6xl mx-auto p-6 my-10">
         <div className="flex justify-between items-center">
           <Input

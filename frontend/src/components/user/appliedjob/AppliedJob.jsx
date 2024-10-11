@@ -1,4 +1,4 @@
-import useAppliedJob from "./hooks/useAppliedJob";
+import { useAppliedJob } from "./hooks";
 import { useSelector } from "react-redux";
 
 const getStatusBadge = (status) => {

@@ -5,12 +5,12 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../ui";
+} from "@/components/ui";
 import { LogOut, User2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { USER_API_ENDPOINT } from "../utils/constant";
+import { USER_API_ENDPOINT } from "@/utils";
 import { toast } from "sonner";
 import { setUser } from "@/redux/authSlice";
 

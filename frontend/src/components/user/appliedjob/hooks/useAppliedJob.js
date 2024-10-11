@@ -1,4 +1,4 @@
-import { APPLICATION_API_ENDPOINT } from "@/components/utils/constant";
+import { APPLICATION_API_ENDPOINT } from "@/utils";
 import { setApplication } from "@/redux/applicationSlice";
 import axios from "axios";
 import { useEffect } from "react";

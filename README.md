@@ -1,30 +1,3 @@
-# **JobNest - MERN Stack Job Portal**
-
-**JobNest** is a comprehensive job portal application that connects recruiters and job seekers, providing a streamlined platform for both to interact effectively. Built using the MERN stack, it offers a full-stack solution that is scalable, and feature-rich.
-
----
-
-## **Key Features**
-
-### **For Recruiters:**
-- **Company Management**: Create and manage detailed company profiles to represent your brand.
-- **Job Listings**: Post and update job opportunities effortlessly to ensure candidates have access to the latest positions.
-- **Applicant Tracking**: Review applications and resumes, track applicants' progress, and manage the recruitment process in real time.
-
-### **For Job Seekers:**
-- **Job Search**: Search for jobs tailored to your skills and preferences, with advanced filtering for a personalized experience.
-- **Easy Application Process**: Apply directly to jobs through the platform with an intuitive user interface.
-- **Profile & Resume Upload**: Enhance your profile with resume uploads and profile pictures to stand out to potential employers.
-
----
-
-## **Technologies Used**
-- **Frontend**: ReactJS, Axios, Tailwind CSS
-- **Backend**: Node.js, Express.js, MongoDB
-- **Other Services**: Twilio (for SMS notifications), Cloudinary (for file uploads)
-
----
-
 ## **Getting Started**
 
 ### **Prerequisites**
@@ -113,14 +86,6 @@ job-nest/
 │   │   └── App.jsx
 └── README.md
 ```
-
----
-
-## **Contribution**
-
-Feel free to fork this repository and make contributions. For major changes, please open an issue first to discuss what you would like to change.
-
----
 
 ## **Contact**
 
